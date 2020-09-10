@@ -5,7 +5,7 @@
 typedef int datatype;
 typedef struct {
     datatype a[MAX_SIZE];
-    int size
+    int size;
 } sequence_list;
 
 void init(sequence_list* slt);
@@ -19,6 +19,51 @@ void delete(sequence_list* slt, int position);
 
 int main()
 {
+    sequence_list list;
+    sequence_list* p = &list;
+    init(p);
+
+    datatype array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+    for (int i = 0; i < 10; i++) {
+        append(p, array[i]);
+    }
+
+    display(list);
+
+    if (empty(list)) {
+        printf("Sequence list is empty.\n");
+    }
+    else {
+        printf("Sequence list is not empty.\n");
+    }
+
+    int find_result;
+    find_result = find(list, 4);
+    if (find_result != -1) {
+        printf("Find 4 success! Position is %d.\n", find_result);
+    }
+    else {
+        printf("Can't find 4 in this list.\n");
+    }
+
+    find_result = find(list, 12);
+    if (find_result != -1) {
+        printf("Find 12 success! Position is %d.\n", find_result);
+    }
+    else {
+        printf("Can't find 12 in this list.\n");
+    }
+
+    for (int i = 0; i < list.size; i++) {
+        printf("%d:   %d", i, get(list, i));
+    }
+
+    display(list);
+    insert(p, 14, 3);
+    display(list);
+    delete(p, 2);
+    display(list);
+
     return 0;
 }
 
@@ -91,7 +136,7 @@ void delete(sequence_list* slt, int position)
         printf("Position wrong!\n");
         exit(1);
     }
-    for (int i = position; i < slt->size; i++) {
-
+    for (int i = position; i < (slt->size - 1); i++) {
+        slt->a[i] = slt->a[i + 1];
     }
 }
