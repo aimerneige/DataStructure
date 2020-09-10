@@ -2,4 +2,4 @@
 
 Personal Data Structure Practice.
 
-Using `CLion`
+Using `Visual Studio Code`
