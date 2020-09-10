@@ -55,7 +55,7 @@ int main()
     }
 
     for (int i = 0; i < list.size; i++) {
-        printf("%d:   %d", i, get(list, i));
+        printf("%d:   %d\n", i, get(list, i));
     }
 
     display(list);
@@ -88,6 +88,7 @@ void display(sequence_list slt)
     for (int i = 0; i < slt.size; i++) {
         printf("%d ", slt.a[i]);
     }
+    printf("\n");
 }
 
 int empty(sequence_list slt)
@@ -124,10 +125,11 @@ void insert(sequence_list* slt, datatype x, int position)
         printf("Position wrong!\n");
         exit(1);
     }
-    for (int i = slt->size; i > position; i++) {
+    for (int i = slt->size; i > position; i--) {
         slt->a[i] = slt->a[i - 1];
     }
     slt->a[position] = x;
+    slt->size++;
 }
 
 void delete(sequence_list* slt, int position)
@@ -139,4 +141,5 @@ void delete(sequence_list* slt, int position)
     for (int i = position; i < (slt->size - 1); i++) {
         slt->a[i] = slt->a[i + 1];
     }
+    slt->size--;
 }
