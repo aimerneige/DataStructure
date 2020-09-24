@@ -230,7 +230,7 @@ node* reverse(node* head)
     q = p->next;
     p->next = NULL;
     while (q != NULL) {
-        r = r = q->next;
+        r = q->next;
         q->next = p;
         p = q;
         q = r;
