@@ -210,6 +210,21 @@ node* reverse(node* head)
 // delete all of the value between x and y on a sorted list
 node* cut(node* head, int x, int y)
 {
-
+    if (head == NULL || x > y) {
+        return;
+    }
+    // node* p = head;
+    node* first = find(head, x);
+    node* last  = find(head, y);
+    if (first == NULL || last == NULL) {
+        return head;
+    }
+    node* p = first->next;
+    first->next = last;
+    while(p != NULL) {
+        node* tmp = p;
+        p = p->next;
+        free(tmp);
+    }    
 }
 
