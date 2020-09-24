@@ -17,7 +17,7 @@ node* insert_before(node* head, int index, datatype value);
 node* delete(node* head, datatype value);
 node* append(node* head, datatype value);
 int   sizeOfList(node* head);
-int   isSorted();
+int   isSorted(node* head);
 node* reverse(node* head);
 node* a();
 node* cut(node* head, int x, int y);
@@ -163,6 +163,7 @@ node* delete(node* head, int value)
     return head;
 }
 
+// append value on the end of list
 node* append(node* head, datatype value)
 {
     if (head == NULL) {
@@ -196,11 +197,34 @@ int sizeOfList(node* head)
     return cnt;
 }
 
+// weather the list is sorted
+int isSorted(node* head)
+{
+    if (head == NULL) {
+        return 0;
+    }
+    int ret = 1;
+    node* p = head;
+    while (p->next != NULL) {
+        if (p->info > p->next->info) {
+            ret = 0;
+            break;
+        }
+        else {
+            p = p->next;
+        }
+    }
+    return ret;
+}
 
 // reverse a list
 node* reverse(node* head)
 {
-    // todo
+    if (head == NULL) {
+        return;
+    }
+    
+
 
 }
 
@@ -221,10 +245,11 @@ node* cut(node* head, int x, int y)
     }
     node* p = first->next;
     first->next = last;
-    while(p != NULL) {
+    while(p != last) {
         node* tmp = p;
         p = p->next;
         free(tmp);
-    }    
+    }
+    return head;
 }
 
