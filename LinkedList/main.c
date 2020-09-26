@@ -25,11 +25,63 @@ node* getOdd(node* head);
 
 int main(int argc, char const *argv[])
 {
+    // init
+    node* list = init();
+    if (list == NULL) {
+        printf("The list is NULL\n");
+    }
+
+    // init with value
+    node* list_value = initWithValue(123);
+    display(list_value);
+
     // init with array
     datatype a[5] = {1, 2, 3, 4, 5};
     node* list_array = initWithArray(a, 5);
     display(list_array);
 
+    // find
+    node* ret = find(list_array, 3);
+    if (ret == NULL) {
+        printf("Find failed!\n");
+    }
+    else {
+        printf("%d\n", ret->info);
+    }
+    ret = find(list_array, 7);
+    if (ret == NULL) {
+        printf("Find failed!\n");
+    }
+    else {
+        printf("%d\n", ret->info);
+    }
+
+    // insert
+    display(list_array);
+    list_array = insert(list_array, 2, 9);
+    display(list_array);
+    list_array = insert(list_array, 6, 9);
+    display(list_array);
+    list_array = insert(list_array, -1, 23);
+    display(list_array);
+    list_array = insert(list_array, 0, 12);
+    display(list_array);
+
+    // insert before
+    list_array = insert_before(list_array, 0, 99);
+    display(list_array);
+    list_array = insert_before(list_array, 8, 32);
+    display(list_array);
+
+    // delete
+    list_array = delete(list_array, 99);
+    display(list_array);
+    list_array = delete(list_array, 12);
+    display(list_array);
+    list_array = delete(list_array, 32);
+    display(list_array);
+    list_array = delete(list_array, 99);
+    display(list_array);
 
     return 0;
 }
@@ -102,7 +154,7 @@ node* find(node* head, int index)
 node* insert(node* head, int index, datatype value)
 {
     if (head == NULL || index < 0) {
-        return NULL;
+        return head;
     }
     node* p = head;
     for (int i = 0; i < index; i++) {
@@ -110,6 +162,9 @@ node* insert(node* head, int index, datatype value)
             return NULL;
         }
         p = p->next;
+    }
+    if (p == NULL) {
+        return head;
     }
     node* next = p->next;
     p->next = (node*) malloc (sizeof(node) * 1);
@@ -122,7 +177,7 @@ node* insert(node* head, int index, datatype value)
 node* insert_before(node* head, int index, datatype value)
 {
     if (head == NULL || index < 0) {
-        return NULL;
+        return head;
     }
     if (index == 0) {
         node* _node = (node*) malloc(sizeof(node) * 1);
@@ -130,41 +185,41 @@ node* insert_before(node* head, int index, datatype value)
         _node->next = head;
         return _node;
     }
-    node* p = head;
-    for (int i = 0; i < index - 1; i++) {
-        if (p == NULL) {
-            return NULL;
-        }
-        p = p->next;
-    }
-    node* next = p->next;
-    p->next = (node*) malloc (sizeof(node) * 1);
-    p->next->info = value;
-    p->next->next = next;
-    return head;
+    return insert(head, index - 1, value);
 }
 
 // delete the first node with value
 node* delete(node* head, int value)
 {
     if (head == NULL) {
-        return NULL;
+        return head;
     }
     node* p = head;
+    if (head->info == value) {
+        p = head->next;
+        free(head);
+        return p;
+    }
     while (p != NULL) {
-        if (p->info == value) {
-            if (p->next) {
-                if (p->next->next) {
-                    node* next = p->next->next;
-                    free(p->next);
-                    p->next = next;
-                }
-                else {
-                    free(p->next);
-                }
-            }
+        if (p->next == NULL) {
             return head;
         }
+        if (p->next->info == value) {
+            node* del = p->next;
+            node* before = p;
+            if (del->next == NULL) {
+                before->next = NULL;
+                free(del);
+                return head;
+            }
+            else {
+                node* next = del->next;
+                before->next = next;
+                free(del);
+                return head;
+            }
+        }
+        p = p->next;
     }
     return head;
 }
