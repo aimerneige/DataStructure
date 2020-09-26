@@ -19,13 +19,17 @@ node* append(node* head, datatype value);
 int   sizeOfList(node* head);
 int   isSorted(node* head);
 node* reverse(node* head);
-node* a();
 node* cut(node* head, int x, int y);
+node* getOdd(node* head);
 
 
 int main(int argc, char const *argv[])
 {
-    node* list = init();
+    // init with array
+    datatype a[5] = {1, 2, 3, 4, 5};
+    node* list_array = initWithArray(a, 5);
+    display(list_array);
+
 
     return 0;
 }
@@ -48,16 +52,18 @@ node* initWithValue(datatype value)
 // init a new node list with array
 node* initWithArray(datatype* array, int size)
 {
-    if (size == 0) {
+    if (size <= 0) {
         return NULL;
     }
     node* head = (node*) malloc(sizeof(node) * 1);
     node* p = head;
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size - 1; i++) {
         p->info = array[i];
         p->next = (node*) malloc(sizeof(node) * 1);
+        p = p->next;
     }
-    free(p->next);
+    p->info = array[size - 1];
+    p->next = NULL;
     return head;
 }
 
@@ -80,7 +86,7 @@ void display(node* head)
 node* find(node* head, int index)
 {
     if (head == NULL || index < 0) {
-        return;
+        return NULL;
     }
     node* p = head;
     for (int i = 0; i < index; i++) {
@@ -96,7 +102,7 @@ node* find(node* head, int index)
 node* insert(node* head, int index, datatype value)
 {
     if (head == NULL || index < 0) {
-        return;
+        return NULL;
     }
     node* p = head;
     for (int i = 0; i < index; i++) {
@@ -116,7 +122,7 @@ node* insert(node* head, int index, datatype value)
 node* insert_before(node* head, int index, datatype value)
 {
     if (head == NULL || index < 0) {
-        return;
+        return NULL;
     }
     if (index == 0) {
         node* _node = (node*) malloc(sizeof(node) * 1);
@@ -142,7 +148,7 @@ node* insert_before(node* head, int index, datatype value)
 node* delete(node* head, int value)
 {
     if (head == NULL) {
-        return;
+        return NULL;
     }
     node* p = head;
     while (p != NULL) {
@@ -167,22 +173,31 @@ node* delete(node* head, int value)
 node* append(node* head, datatype value)
 {
     if (head == NULL) {
-        head = (node*) malloc(sizeof(node) * 1);
-        head->info = value;
-        head->next = NULL;
-        return head;
+        
     }
     node* p = head;
-    while (p != NULL) {
-        if (p->next == NULL) {
-            p = (node*) malloc(sizeof(node) * 1);
-            p->info = value;
-            p->next = NULL;
-            return head;
-        }
+    do {
+
         p = p->next;
-    }
-    return;
+    } while (p != NULL);
+    return head;
+    // if (head == NULL) {
+    //     head = (node*) malloc(sizeof(node) * 1);
+    //     head->info = value;
+    //     head->next = NULL;
+    //     return head;
+    // }
+    // node* p = head;
+    // while (p != NULL) {
+    //     if (p->next == NULL) {
+    //         p->next = (node*) malloc(sizeof(node) * 1);
+    //         p->next->info = value;
+    //         p->next->next = NULL;
+    //         return head;
+    //     }
+    //     p = p->next;
+    // }
+    // return NULL;
 }
 
 // get the size of the list
@@ -221,7 +236,7 @@ int isSorted(node* head)
 node* reverse(node* head)
 {
     if (head == NULL) {
-        return;
+        return NULL;
     }
     node* before = NULL;
     node* current = NULL;
@@ -239,14 +254,11 @@ node* reverse(node* head)
     return head;
 }
 
-
-
-
 // delete all of the value between x and y on a sorted list
 node* cut(node* head, int x, int y)
 {
     if (head == NULL || x > y) {
-        return;
+        return NULL;
     }
     // node* p = head;
     node* first = find(head, x);
@@ -264,3 +276,21 @@ node* cut(node* head, int x, int y)
     return head;
 }
 
+// delete all of the odd number and make them a new list
+node* getOdd(node* head)
+{
+    if (head == NULL) {
+        return NULL;
+    }
+    node* p = head;
+    node* newList = init();
+    while (p != NULL) {
+        if (p->info % 2 != 0) {
+            datatype value = p->info;
+            delete(p, value);
+            append(newList, value);
+        }
+        p = p->next;
+    }
+    return newList;
+}
