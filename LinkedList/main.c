@@ -83,6 +83,46 @@ int main(int argc, char const *argv[])
     list_array = delete(list_array, 99);
     display(list_array);
 
+    // append
+    list = append(list, 12);
+    display(list);
+    list = append(list, 22);
+    display(list);
+
+    // sizeOfList
+    int size_list = sizeOfList(list);
+    int size_list_value = sizeOfList(list_value);
+    int size_list_array = sizeOfList(list_array);
+    printf("%d %d %d\n", size_list, size_list_value, size_list_array);
+
+    // isSorted
+    if (isSorted(list_array)) {
+        printf("list_array is sorted.\n");
+    }
+    else {
+        printf("list_array is not sorted.\n");
+    }
+    datatype sorted_array[5] = {1, 2, 3, 4, 5};
+    node* sorted_list = initWithArray(sorted_array, 5);
+    if (isSorted(sorted_list)) {
+        printf("sorted_list is sorted.\n");
+    }
+    else {
+        printf("sorted_list is not sorted.\n");
+    }
+
+    // reverse
+    display(sorted_list);
+    sorted_list = reverse(sorted_list);
+    display(sorted_list);
+
+    // cut
+    datatype long_array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    node* long_list = initWithArray(long_array, 10);
+    node* cuted = cut(long_list, 4, 9);
+    display(cuted);
+
+
     return 0;
 }
 
@@ -159,7 +199,7 @@ node* insert(node* head, int index, datatype value)
     node* p = head;
     for (int i = 0; i < index; i++) {
         if (p == NULL) {
-            return NULL;
+            return head;
         }
         p = p->next;
     }
@@ -228,31 +268,19 @@ node* delete(node* head, int value)
 node* append(node* head, datatype value)
 {
     if (head == NULL) {
-        
+        return initWithValue(value);
     }
     node* p = head;
     do {
-
+        if (p->next == NULL) {
+            p->next = (node*) malloc(sizeof(node) * 1);
+            p->next->info = value;
+            p->next->next = NULL;
+            return head;
+        }
         p = p->next;
     } while (p != NULL);
     return head;
-    // if (head == NULL) {
-    //     head = (node*) malloc(sizeof(node) * 1);
-    //     head->info = value;
-    //     head->next = NULL;
-    //     return head;
-    // }
-    // node* p = head;
-    // while (p != NULL) {
-    //     if (p->next == NULL) {
-    //         p->next = (node*) malloc(sizeof(node) * 1);
-    //         p->next->info = value;
-    //         p->next->next = NULL;
-    //         return head;
-    //     }
-    //     p = p->next;
-    // }
-    // return NULL;
 }
 
 // get the size of the list
@@ -291,7 +319,7 @@ int isSorted(node* head)
 node* reverse(node* head)
 {
     if (head == NULL) {
-        return NULL;
+        return head;
     }
     node* before = NULL;
     node* current = NULL;
@@ -313,9 +341,17 @@ node* reverse(node* head)
 node* cut(node* head, int x, int y)
 {
     if (head == NULL || x > y) {
-        return NULL;
+        return head;
     }
-    // node* p = head;
+    node* p = head;
+    while (p->next != NULL) {
+        if (p->next->info == x) {
+            break;
+        }
+        p = p->next;
+    }
+
+
     node* first = find(head, x);
     node* last  = find(head, y);
     if (first == NULL || last == NULL) {
@@ -335,7 +371,7 @@ node* cut(node* head, int x, int y)
 node* getOdd(node* head)
 {
     if (head == NULL) {
-        return NULL;
+        return head;
     }
     node* p = head;
     node* newList = init();
