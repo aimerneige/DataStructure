@@ -343,6 +343,11 @@ node* cut(node* head, int x, int y)
     if (head == NULL || x > y) {
         return head;
     }
+    node* first = find(head, x);
+    node* last  = find(head, y);
+    if (first == NULL || last == NULL) {
+        return head;
+    }
     node* p = head;
     while (p->next != NULL) {
         if (p->next->info == x) {
@@ -350,20 +355,16 @@ node* cut(node* head, int x, int y)
         }
         p = p->next;
     }
+    node* start = p;
+    start->next = last->next;
 
-
-    node* first = find(head, x);
-    node* last  = find(head, y);
-    if (first == NULL || last == NULL) {
-        return head;
-    }
-    node* p = first->next;
-    first->next = last;
-    while(p != last) {
+    p = p->next;
+    while (p != last) {
         node* tmp = p;
         p = p->next;
         free(tmp);
     }
+    free(last);
     return head;
 }
 
