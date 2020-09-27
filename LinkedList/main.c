@@ -119,9 +119,21 @@ int main(int argc, char const *argv[])
     // cut
     datatype long_array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     node* long_list = initWithArray(long_array, 10);
-    node* cuted = cut(long_list, 4, 9);
-    display(cuted);
+    node* cutd = cut(long_list, 4, 9);
+    display(cutd);
 
+    datatype with_same_array[10] = {1, 2, 3, 4, 5, 5, 5, 5, 5, 8};
+    node* with_same_list = initWithArray(with_same_array, 10);
+    cutd = cut(with_same_list, 4, 5);
+    display(cutd);
+
+    // getOdd
+    datatype with_odd_array[10] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    node* full = initWithArray(with_odd_array, 10);
+    display(full);
+    node* odd = getOdd(full);
+    display(full);
+    display(odd);
 
     return 0;
 }
@@ -340,31 +352,21 @@ node* reverse(node* head)
 // delete all of the value between x and y on a sorted list
 node* cut(node* head, int x, int y)
 {
-    if (head == NULL || x > y) {
-        return head;
-    }
-    node* first = find(head, x);
-    node* last  = find(head, y);
-    if (first == NULL || last == NULL) {
+    if (head == NULL || x >= y) {
         return head;
     }
     node* p = head;
-    while (p->next != NULL) {
-        if (p->next->info == x) {
-            break;
-        }
+    while (p->next->info != x) {
         p = p->next;
     }
-    node* start = p;
-    start->next = last->next;
-
+    node* before = p;
     p = p->next;
-    while (p != last) {
+    while (p->info <= y) {
         node* tmp = p;
         p = p->next;
         free(tmp);
     }
-    free(last);
+    before->next = p;
     return head;
 }
 
@@ -379,10 +381,11 @@ node* getOdd(node* head)
     while (p != NULL) {
         if (p->info % 2 != 0) {
             datatype value = p->info;
-            delete(p, value);
-            append(newList, value);
+            p = delete(p, value);
+            newList = append(newList, value);
         }
         p = p->next;
     }
     return newList;
 }
+
