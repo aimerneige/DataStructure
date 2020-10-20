@@ -106,11 +106,12 @@ void str_insert(String *src, String *sub, int i)
     {
         return;
     }
-    for (int j = 0; j < sub->length; j++)
+    // ??
+    int src_len = src->length;
+    int sub_len = sub->length;
+    for (int j = 0; j < sub_len; j++)
     {
-        src->str[src->length + i + j] = src->str[i + j];
-        src->str[i + j] = sub->str[j];
-        i++;
+        src->str[src_len + sub_len + j] = src->str[i + j];
     }
 
     src->length = src->length + sub->length;
