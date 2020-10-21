@@ -147,7 +147,7 @@ String *str_substring(String *src, int i, int len)
     p->length = len;
     for (int j = 0; j < len; j++)
     {
-        p->str[j] = src->length[i + j];
+        p->str[j] = src->str[i + j];
     }
     return p;
 }
