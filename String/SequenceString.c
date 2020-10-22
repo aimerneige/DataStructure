@@ -34,6 +34,29 @@ int main(int argc, char const *argv[])
     str_concat(&a, &b);
     str_show(&a);
     printf("\n");
+    String* sub = str_substring(&a, 1, 3);
+    str_show(sub);
+    printf("\n");
+    String x = str_init("AAA");
+    String y = str_init("AAA");
+    if (str_compare(&x, &y) == 0)
+    {
+        printf("Same!\n");
+    }
+    else
+    {
+        printf("Don't same!\n");
+    }
+    str_delete(&y, 0, 1);
+    if (str_compare(&x, &y) == 0)
+    {
+        printf("Same!\n");
+    }
+    else
+    {
+        printf("Don't same!\n");
+    }
+
 
     return 0;
 }
@@ -228,4 +251,5 @@ int str_replace(String *src, String *old, String *new)
 // return -1 if search failed
 int str_search(String *src, String *sub)
 {
+    
 }
