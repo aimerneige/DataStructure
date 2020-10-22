@@ -27,6 +27,9 @@ int main(int argc, char const *argv[])
     String b = str_init("FFF");
     str_insert(&a, &b, 1);
     str_show(&a);
+    printf("\n");
+    str_delete(&a, 1, 3);
+    str_show(&a);
 
     return 0;
 }
@@ -34,6 +37,11 @@ int main(int argc, char const *argv[])
 // get a string with char string
 String str_init(char *src)
 {
+    if (src == NULL)
+    {
+        printf("The char array \"src\" is null!\n");
+        return;
+    }
     String a;
     a.length = 0;
     if (strlen(src) > MAXSIZE)
@@ -61,6 +69,7 @@ void str_show(String *src)
 {
     if (src == NULL)
     {
+        printf("The string \"src\" is null!\n");
         return;
     }
     for (int i = 0; i < src->length; i++)
@@ -96,17 +105,12 @@ void str_insert(String *src, String *sub, int i)
     {
         return;
     }
-    // ??
-    // abcd 2 fff
-    // ab fff cd
-    // before sub after
     int src_len = src->length;
     int sub_len = sub->length;
     int after_len = src_len - i;
-    
     for (int j = 0; j < after_len; j++)
     {
-        src->str[src_len + sub_len - j] = src->str[src_len - j];
+        src->str[src_len + sub_len - j - 1] = src->str[src_len - j - 1];
     }
     for (int j = 0; j < sub_len; j++)
     {
@@ -119,11 +123,23 @@ void str_insert(String *src, String *sub, int i)
 // start with position `i` at string `src`
 void str_delete(String *src, int i, int len)
 {
-    for (int j = 0; j < len; j++)
+    if (src == NULL)
     {
-        src->str[i + j] = src->str[i + j + len];
+        printf("The string \"src\" is null!\n");
+        return;
     }
-    src->length = src->length - len;
+    if (i >= src->length || len > MAXSIZE)
+    {
+        printf("Illegal argument!\n");
+        return;
+    }
+    int src_len = src->length;
+    int after_len = src_len - i - len;
+    for (int j = 0; j < after_len; j++)
+    {
+        src->str[i + j] = src->str[i + len + j];
+    }
+    src->length = src_len - len;
 }
 
 // concat string `new` to string `src`
@@ -134,6 +150,7 @@ void str_concat(String *src, String *new)
         printf("New string is too long!\n");
         return;
     }
+
 }
 
 // get substring with length `len`
