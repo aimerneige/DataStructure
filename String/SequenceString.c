@@ -23,19 +23,9 @@ int str_search(String *src, String *sub);
 
 int main(int argc, char const *argv[])
 {
-    String a;
-    a.str[0] = 'H';
-    a.str[1] = 'e';
-    a.str[2] = 'l';
-    a.str[3] = 'l';
-    a.str[4] = 'o';
-    a.length = 5;
-    str_show(&a);
-
-    String b = str_init("World!\n");
-    str_show(&b);
-
-    str_insert(&a, &b, 2);
+    String a = str_init("ABC");
+    String b = str_init("FFF");
+    str_insert(&a, &b, 1);
     str_show(&a);
 
     return 0;
@@ -107,13 +97,21 @@ void str_insert(String *src, String *sub, int i)
         return;
     }
     // ??
+    // abcd 2 fff
+    // ab fff cd
+    // before sub after
     int src_len = src->length;
     int sub_len = sub->length;
+    int after_len = src_len - i;
+    
+    for (int j = 0; j < after_len; j++)
+    {
+        src->str[src_len + sub_len - j] = src->str[src_len - j];
+    }
     for (int j = 0; j < sub_len; j++)
     {
-        src->str[src_len + sub_len + j] = src->str[i + j];
+        src->str[i + j] = sub->str[j];
     }
-
     src->length = src->length + sub->length;
 }
 
