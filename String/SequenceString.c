@@ -30,6 +30,10 @@ int main(int argc, char const *argv[])
     printf("\n");
     str_delete(&a, 1, 3);
     str_show(&a);
+    printf("\n");
+    str_concat(&a, &b);
+    str_show(&a);
+    printf("\n");
 
     return 0;
 }
@@ -37,11 +41,6 @@ int main(int argc, char const *argv[])
 // get a string with char string
 String str_init(char *src)
 {
-    if (src == NULL)
-    {
-        printf("The char array \"src\" is null!\n");
-        return;
-    }
     String a;
     a.length = 0;
     if (strlen(src) > MAXSIZE)
@@ -145,12 +144,29 @@ void str_delete(String *src, int i, int len)
 // concat string `new` to string `src`
 void str_concat(String *src, String *new)
 {
+    if (src == NULL)
+    {
+        printf("The string \"src\" is null!\n");
+        return;
+    }
+    if (new == NULL)
+    {
+        printf("The string \"new\" is null!\n");
+        return;
+    }
     if ((src->length + new->length) > MAXSIZE)
     {
         printf("New string is too long!\n");
         return;
     }
+    int src_len = src->length;
+    int new_len = new->length;
 
+    for (int i = 0; i < new_len; i++)
+    {
+        src->str[src_len + i] = new->str[i];
+    }
+    src->length = src_len + new_len;
 }
 
 // get substring with length `len`
