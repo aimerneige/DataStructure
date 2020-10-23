@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
     str_concat(&a, &b);
     str_show(&a);
     printf("\n");
-    String* sub = str_substring(&a, 1, 3);
+    String *sub = str_substring(&a, 1, 3);
     str_show(sub);
     printf("\n");
     String x = str_init("AAA");
@@ -56,7 +56,11 @@ int main(int argc, char const *argv[])
     {
         printf("Don't same!\n");
     }
-
+    String hello = str_init("Hello I am AimerNeige!\n");
+    String name = str_init("AimerNeige");
+    String new_name = str_init("NeigeAimer");
+    str_replace(&hello, &name, &new_name);
+    str_show(&hello);
 
     return 0;
 }
@@ -251,5 +255,41 @@ int str_replace(String *src, String *old, String *new)
 // return -1 if search failed
 int str_search(String *src, String *sub)
 {
-    
+    if (src == NULL)
+    {
+        printf("The string \"src\" is null!\n");
+        return -1;
+    }
+    if (sub == NULL)
+    {
+        printf("The string \"sub\" is null!\n");
+        return -1;
+    }
+    int src_len = src->length;
+    int sub_len = sub->length;
+    if (sub_len > src_len)
+    {
+        return -1;
+    }
+    int end_len = src_len - sub_len;
+    int flag = 0;
+    for (int i = 0; i <= end_len; i++)
+    {
+        for (int j = 0; j < sub_len; j++)
+        {
+            if (src->str[i + j] != sub->str[j])
+            {
+                break;
+            }
+            if (j == sub_len - 1)
+            {
+                flag = 1;
+            }
+        }
+        if (flag == 1)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
