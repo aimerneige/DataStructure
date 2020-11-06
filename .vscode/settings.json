@@ -1,5 +1,6 @@
 {
     "editor.fontSize": 18,
     "editor.fontFamily": "'Operator Mono', 'Fira Code', Consolas, 'Courier New', monospace",
+    // "workbench.colorTheme": "Visual Studio Dark - C++"
     "workbench.colorTheme": "One Dark Pro"
 }
