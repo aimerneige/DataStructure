@@ -1,9 +1,9 @@
-objects = main.o BinaryTree.o Preorder.o\
+OBJECTS = main.o BinaryTree.o Preorder.o\
 	Inorder.o Postorder.o Stack.o
-target = bintree
+TARGET = bintree
 
-$(target): $(objects)
-	cc -o $(target) $(objects)
+$(TARGET): $(OBJECTS)
+	cc -o $(TARGET) $(OBJECTS)
 
 BinaryTree.o: BinaryTree.h
 Preorder.o: Preorder.h BinaryTree.h
@@ -13,7 +13,14 @@ Stack.o: Stack.h BinaryTree.h
 
 .PHONY: clean run
 clean:
-	-rm -f $(target) $(objects)
-run:$(target)
-	-./bintree
-	-rm -f $(target) $(objects)
+	-rm -f $(TARGET) $(OBJECTS)
+run:$(TARGET)
+	-@echo
+	-@echo ========================================
+	-@./bintree
+	-@echo ========================================
+	-@echo
+	-@echo run end.
+	-@echo start clean files
+	-rm -f $(TARGET) $(OBJECTS)
+	-@echo clean end.

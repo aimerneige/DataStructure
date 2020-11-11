@@ -13,15 +13,18 @@ typedef struct BinaryTreeNodeStack
     int size;
 } BinaryTreeNodeStack;
 
-BinaryTreeNodeStack *createBinaryTreeNodeStack(
+BinaryTreeNodeStack *
+createBinaryTreeNodeStack(
     void);
 bool BinaryTreeNodeStack_isEmpty(
     BinaryTreeNodeStack *stack);
 bool BinaryTreeNodeStack_isFull(
     BinaryTreeNodeStack *stack);
-BinaryTreeNode *BinaryTreeNodeStack_peek(
+BinaryTreeNode *
+BinaryTreeNodeStack_peek(
     BinaryTreeNodeStack *stack);
-BinaryTreeNode *BinaryTreeNodeStack_pop_back(
+BinaryTreeNode *
+BinaryTreeNodeStack_pop_back(
     BinaryTreeNodeStack *stack);
 bool BinaryTreeNodeStack_push_back(
     BinaryTreeNodeStack *stack,
